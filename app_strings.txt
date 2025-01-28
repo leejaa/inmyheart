@@ -1,0 +1,111 @@
+# In My Heart 앱 문구 모음
+
+## 1. 시작 화면 (Welcome)
+- In my ❤️
+  - In my ❤️
+- 당신의 설렘이 시작되는 곳 💕
+  - Where your heart flutters 💕
+
+## 2. 인증 (Authentication)
+- 환영합니다!
+  - Welcome!
+- 휴대폰 번호로 간편하게 시작하세요
+  - Start easily with your phone number
+- 인증번호가 발송되었습니다
+  - Verification code has been sent
+- 전화번호 다시 입력
+  - Re-enter phone number
+- 인증번호 발송
+  - Send verification code
+
+## 3. 권한 (Permissions)
+- 연락처 접근 권한이 필요해요
+  - Contact permission required
+- 당신의 인연을 찾기 위해\n연락처 접근 권한이 필요합니다.
+  - We need access to your contacts\nto help you find your special someone.
+- 알림 권한 필요
+  - Notification permission required
+- 알림을 받기 위해서는 앱 설정에서 알림 권한을 허용해주세요.
+  - Please enable notifications in app settings to receive updates.
+- 권한 필요
+  - Permission required
+- 연락처 접근 권한이 필요합니다. 설정에서 권한을 허용해주세요.
+  - Contact permission is required. Please enable it in settings.
+- 설정으로 이동
+  - Go to Settings
+
+### iOS 권한 설명
+- in my heart가 여러분의 소중한 인연을 찾아드리기 위해 연락처 접근 권한이 필요합니다.
+  - in my heart needs access to your contacts to help you find your special connections.
+- in my heart가 새로운 소식을 알려드리기 위해 알림 권한이 필요합니다.
+  - in my heart needs notification permissions to keep you updated with new information.
+
+## 4. 연락처 (Contacts)
+- 연락처 선택
+  - Select Contact
+- 연락처가 없습니다.
+  - No contacts found.
+- 이름 없음
+  - No name
+- 번호 없음
+  - No number
+- 연락처에서 선택하기
+  - Select from contacts
+
+## 5. 퀴즈 (Quiz)
+- 오늘의 퀴즈
+  - Today's Quiz
+- 나의 선택
+  - My Choice
+
+## 6. 초대 (Invite)
+- 초대
+  - Invite
+- 💝 {name}님, in my heart에서 당신을 기다리고 있어요!\n\n지금 바로 가입하고 설렘 가득한 인연을 만나보세요 ✨\n\n앱 다운로드: https://inmyheart.app
+  - 💝 Hey {name}, someone is waiting for you on in my heart!\n\nJoin now and find your special connection ✨\n\nDownload: https://inmyheart.app
+- {name}님을 초대했어요!
+  - Invited {name}!
+- SMS를 보낼 수 없습니다.
+  - Cannot send SMS.
+- SMS 전송 중 오류가 발생했습니다.
+  - Error occurred while sending SMS.
+
+## 7. 호감 표시 (Like)
+- 호감 표시
+  - Show Interest
+- {name}님에게 호감을 표시하시겠습니까?\n호감 표시는 한 사람에게만 할 수 있습니다.
+  - Would you like to show interest in {name}?\nYou can only show interest in one person.
+- {name}님에게 호감을 표시했어요! 💕
+  - Showed interest in {name}! 💕
+- {count}명이 호감을 표시했어요
+  - {count} people showed interest in you
+- 지금 확인하기
+  - Check now
+- 예
+  - Yes
+- 아니오
+  - No
+
+## 8. 설정 (Settings)
+- 서비스 이용약관
+  - Terms of Service
+- 개인정보 처리방침
+  - Privacy Policy
+- 알림 해제 안내
+  - Notification Settings Guide
+- 알림을 해제하려면 시스템 설정에서 알림 권한을 비활성화해주세요.
+  - To disable notifications, please turn off notification permissions in system settings.
+- 서비스 탈퇴
+  - Delete Account
+- 정말 탈퇴하시겠습니까?\n탈퇴 시 모든 데이터가 삭제되며 복구할 수 없습니다.
+  - Are you sure you want to delete your account?\nAll data will be permanently deleted and cannot be recovered.
+- 탈퇴
+  - Delete
+- 취소
+  - Cancel
+- 확인
+  - Confirm
+
+## 9. 오류 (Error)
+- 다시 시도
+  - Try again 
