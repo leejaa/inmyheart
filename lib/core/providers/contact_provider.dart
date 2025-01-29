@@ -36,7 +36,9 @@ class ContactController extends _$ContactController {
   }
 
   Future<List<Contact>> _loadContacts() async {
-    final contacts = await service.ContactsService.getContacts();
+    final contacts = await service.ContactsService.getContacts()
+      ..sort((a, b) => (a.displayName ?? '').compareTo(b.displayName ?? ''));
+
     final List<Contact> contactList =
         contacts.take(maxContactCount).map((contact) {
       final phoneNumber = formatPhoneNumber(contact.phones?.firstOrNull?.value);
@@ -80,13 +82,14 @@ class ContactController extends _$ContactController {
           return contact.copyWith(
             isRegistered: userInfo['isRegistered'] ?? false,
           );
-        }).toList();
+        }).toList()
+          ..sort((a, b) => a.name.compareTo(b.name));
       }
     } catch (e) {
       print('Error checking user registration: $e');
     }
 
-    return contactList;
+    return contactList..sort((a, b) => a.name.compareTo(b.name));
   }
 
   Future<void> refreshContacts() async {

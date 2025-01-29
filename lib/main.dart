@@ -1,4 +1,5 @@
 import 'package:cupid/features/quiz/quiz_page.dart';
+import 'package:cupid/features/quiz/quiz_selections_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:cupid/features/main/main_page.dart';
 import 'package:cupid/features/auth/phone_verification_page.dart';
 import 'package:cupid/features/auth/verification_code_page.dart';
 import 'package:cupid/features/permission/permission_required_page.dart';
+import 'package:cupid/features/likes/likes_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cupid/core/services/token_service.dart';
 import 'package:cupid/core/services/fcm_service.dart';
@@ -125,6 +127,12 @@ class MyApp extends StatelessWidget {
                 builder: (context, state) => const QuizPage(),
               ),
               GoRoute(
+                path: '/quiz/selected',
+                builder: (context, state) => QuizSelectionsPage(
+                  selections: state.extra as List<dynamic>,
+                ),
+              ),
+              GoRoute(
                 path: '/auth/phone',
                 builder: (context, state) => const PhoneVerificationPage(),
               ),
@@ -140,6 +148,10 @@ class MyApp extends StatelessWidget {
               GoRoute(
                 path: '/permission',
                 builder: (context, state) => const PermissionRequiredPage(),
+              ),
+              GoRoute(
+                path: '/likes',
+                builder: (context, state) => const LikesPage(),
               ),
             ],
           ),
