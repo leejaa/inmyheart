@@ -15,6 +15,9 @@ dependencies {
     
     // Firebase Analytics
     implementation 'com.google.firebase:firebase-analytics'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.google.android.gms:play-services-ads:22.6.0'  // AdMob 의존성 추가
 }
 
 def keystoreProperties = new Properties()

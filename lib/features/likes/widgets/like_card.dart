@@ -39,12 +39,12 @@ class _LikeCardState extends State<LikeCard> {
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
-          _rewardedAd = ad;
+          setState(() {
+            _rewardedAd = ad;
+          });
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
-              setState(() {
-                _isHintRevealed = true;
-              });
+              ad.dispose();
               _loadRewardedAd();
             },
             onAdFailedToShowFullScreenContent: (ad, error) {
@@ -55,44 +55,72 @@ class _LikeCardState extends State<LikeCard> {
         },
         onAdFailedToLoad: (error) {
           print('Failed to load rewarded ad: ${error.message}');
+          _loadRewardedAd(); // 로드 실패시 재시도
         },
       ),
     );
   }
 
   void _showRewardedAd() {
-    showCupertinoDialog(
-      context: context,
-      builder: (context) => CupertinoAlertDialog(
-        title: const Text('알림'),
-        content: const Text('애드몹 광고 준비 중입니다.\n잠시만 기다려주세요.'),
-        actions: [
-          CupertinoDialogAction(
-            child: const Text('확인'),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ),
+    if (_rewardedAd == null) {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: const Text('알림'),
+          content: const Text('광고를 불러오는 중입니다.\n잠시 후 다시 시도해주세요.'),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text('확인'),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    _rewardedAd!.show(
+      onUserEarnedReward: (_, reward) {
+        setState(() {
+          _isHintRevealed = true;
+          _isLoading = false;
+        });
+      },
     );
+    _rewardedAd = null;
   }
 
   String _maskName(String name) {
     if (name.length <= 1) return '*';
-    if (_isHintRevealed) {
-      return name.substring(0, 1) + '*' * (name.length - 1);
-    }
+
     return '*' * name.length;
   }
 
-  String _maskPhoneNumber(String phone) {
-    if (_isHintRevealed) {
-      if (phone.length > 4) {
-        return '*' * (phone.length - 4) +
-            phone.substring(phone.length - 4, phone.length - 2);
-      }
-      return phone;
+  String _formatPhoneNumber(String phone) {
+    // +8210으로 시작하는 번호를 010으로 변환
+    if (phone.startsWith('+8210')) {
+      return '010' + phone.substring(5);
     }
-    return '*' * phone.length;
+    return phone;
+  }
+
+  String _maskPhoneNumber(String phone) {
+    String formattedPhone = _formatPhoneNumber(phone);
+
+    if (_isHintRevealed) {
+      if (formattedPhone.length > 5) {
+        // 앞 3자리와 끝 2자리만 보여주고 나머지는 마스킹
+        return formattedPhone.substring(0, 3) +
+            '*' * (formattedPhone.length - 5) +
+            formattedPhone.substring(formattedPhone.length - 2);
+      }
+      return formattedPhone;
+    }
+    return '*' * formattedPhone.length;
   }
 
   @override

@@ -27,7 +27,7 @@ void main() async {
   );
 
   // AdMob 초기화
-  MobileAds.instance.initialize();
+  await MobileAds.instance.initialize();
 
   String initialLocation = '/auth/phone';
 
