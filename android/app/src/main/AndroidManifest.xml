@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     
     <application
-        android:label="in my heart"
+        android:label="cupid"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
             
@@ -14,6 +14,11 @@
         <meta-data
             android:name="com.google.android.play.core.review.CONTACT_DATA_USAGE"
             android:value="앱의 핵심 기능인 친구 초대와 퀴즈를 위해 연락처 정보를 사용합니다." />
+
+        <!-- AdMob 앱 ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
 
         <activity
             android:name=".MainActivity"

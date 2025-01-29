@@ -15,6 +15,7 @@ import 'package:cupid/core/services/token_service.dart';
 import 'package:cupid/core/services/fcm_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'firebase_options.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -24,6 +25,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // AdMob 초기화
+  MobileAds.instance.initialize();
 
   String initialLocation = '/auth/phone';
 
