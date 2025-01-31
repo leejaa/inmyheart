@@ -1,4 +1,6 @@
 PODS:
+  - app_tracking_transparency (0.0.1):
+    - Flutter
   - contacts_service (0.2.2):
     - Flutter
   - Firebase/Auth (11.4.0):
@@ -124,6 +126,7 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -162,6 +165,8 @@ SPEC REPOS:
     - RecaptchaInterop
 
 EXTERNAL SOURCES:
+  app_tracking_transparency:
+    :path: ".symlinks/plugins/app_tracking_transparency/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
   firebase_auth:
@@ -192,6 +197,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
+  app_tracking_transparency: 3d84f147f67ca82d3c15355c36b1fa6b66ca7c92
   contacts_service: 7c2ed10147f55891576c6a582f431e385d8de92d
   Firebase: cf1b19f21410b029b6786a54e9764a0cacad3c99
   firebase_auth: dee97e7428ef7c304083839d4e3bc4313c03afd5

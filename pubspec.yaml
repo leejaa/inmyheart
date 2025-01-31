@@ -32,6 +32,7 @@ dependencies:
     sdk: flutter
   http: ^1.2.0
   google_mobile_ads: ^5.3.1
+  app_tracking_transparency: ^2.0.4  # IDFA 값을 얻기 위한 패키지
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

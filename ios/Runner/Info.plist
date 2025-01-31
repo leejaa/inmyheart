@@ -43,6 +43,8 @@
 	<string>in my heart가 여러분의 소중한 인연을 찾아드리기 위해 연락처 접근 권한이 필요합니다.</string>
 	<key>NSUserNotificationUsageDescription</key>
 	<string>in my heart가 새로운 소식을 알려드리기 위해 알림 권한이 필요합니다.</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>광고 식별자를 사용하여 더 나은 광고 경험을 제공합니다.</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>sms</string>

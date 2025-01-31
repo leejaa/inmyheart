@@ -35,7 +35,7 @@ class _LikeCardState extends State<LikeCard> {
 
   void _loadRewardedAd() {
     RewardedAd.load(
-      adUnitId: 'ca-app-pub-3940256099942544/5224354917', // 테스트 광고 ID
+      adUnitId: 'ca-app-pub-4196759373105097/1470795112', // 실제 리워드 광고 ID
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
@@ -44,10 +44,16 @@ class _LikeCardState extends State<LikeCard> {
           });
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
+              setState(() {
+                _isLoading = false; // 광고가 닫힐 때 로딩 상태 해제
+              });
               ad.dispose();
               _loadRewardedAd();
             },
             onAdFailedToShowFullScreenContent: (ad, error) {
+              setState(() {
+                _isLoading = false; // 광고 표시 실패 시 로딩 상태 해제
+              });
               ad.dispose();
               _loadRewardedAd();
             },
@@ -55,6 +61,9 @@ class _LikeCardState extends State<LikeCard> {
         },
         onAdFailedToLoad: (error) {
           print('Failed to load rewarded ad: ${error.message}');
+          setState(() {
+            _isLoading = false; // 광고 로드 실패 시 로딩 상태 해제
+          });
           _loadRewardedAd(); // 로드 실패시 재시도
         },
       ),
