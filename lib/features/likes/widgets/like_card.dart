@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:ui';
+import 'dart:io' show Platform;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:flutter/foundation.dart';
 
 class LikeCard extends StatefulWidget {
   final Map<String, dynamic> like;
@@ -34,8 +36,12 @@ class _LikeCardState extends State<LikeCard> {
   }
 
   void _loadRewardedAd() {
+    final adUnitId = Platform.isAndroid
+        ? 'ca-app-pub-4196759373105097/1470795112' // Android 리워드 광고 ID
+        : 'ca-app-pub-4196759373105097/8818237441'; // iOS 리워드 광고 ID
+
     RewardedAd.load(
-      adUnitId: 'ca-app-pub-4196759373105097/1470795112', // 실제 리워드 광고 ID
+      adUnitId: adUnitId,
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
