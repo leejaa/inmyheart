@@ -43,9 +43,22 @@ void main() async {
     } else {
       // 토큰이 유효하면 연락처 권한 체크
       final contactsStatus = await Permission.contacts.status;
-      if (contactsStatus.isDenied || contactsStatus.isPermanentlyDenied) {
+      print('contactsStatus: $contactsStatus');
+
+      if (contactsStatus.isPermanentlyDenied) {
         initialLocation = '/permission';
+      } else if (contactsStatus.isDenied) {
+        // 권한이 없는 경우 권한 요청
+        final result = await Permission.contacts.request();
+        print('permission request result: $result');
+
+        if (result.isGranted || result == PermissionStatus.limited) {
+          initialLocation = '/';
+        } else {
+          initialLocation = '/permission';
+        }
       } else {
+        // 권한이 허용(전체 또는 일부)된 경우 홈 화면으로 이동
         initialLocation = '/';
       }
     }
@@ -118,8 +131,15 @@ class MyApp extends StatelessWidget {
                 redirect: (context, state) async {
                   // 메인 페이지 접근 시 연락처 권한 체크
                   final contactsStatus = await Permission.contacts.status;
-                  if (contactsStatus.isDenied ||
-                      contactsStatus.isPermanentlyDenied) {
+
+                  if (contactsStatus.isPermanentlyDenied) {
+                    return '/permission';
+                  } else if (contactsStatus.isDenied) {
+                    final result = await Permission.contacts.request();
+                    if (result.isGranted ||
+                        result == PermissionStatus.limited) {
+                      return null;
+                    }
                     return '/permission';
                   }
                   return null;
