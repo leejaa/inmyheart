@@ -1,10 +1,11 @@
-import 'package:contacts_service/contacts_service.dart' as service;
+import 'package:flutter_contacts/flutter_contacts.dart' as flutter_contacts;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:cupid/features/home/models/contact.dart';
 import 'package:cupid/core/config/api_config.dart';
 import 'package:cupid/core/services/token_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 
 part 'contact_provider.g.dart';
 
@@ -31,20 +32,33 @@ const int maxContactCount = 500;
 @riverpod
 class ContactController extends _$ContactController {
   @override
-  Future<List<Contact>> build() async {
+  FutureOr<List<Contact>> build() async {
     return _loadContacts();
   }
 
   Future<List<Contact>> _loadContacts() async {
-    final contacts = await service.ContactsService.getContacts()
-      ..sort((a, b) => (a.displayName ?? '').compareTo(b.displayName ?? ''));
+    // 연락처 권한 요청
+    if (!await flutter_contacts.FlutterContacts.requestPermission(
+        readonly: true)) {
+      throw Exception('연락처 접근 권한이 거부되었습니다.');
+    }
+
+    // 연락처 가져오기 (이름과 전화번호 포함)
+    final contacts = await flutter_contacts.FlutterContacts.getContacts(
+      withProperties: true,
+      withPhoto: false,
+      sorted: true,
+    );
 
     final List<Contact> contactList =
         contacts.take(maxContactCount).map((contact) {
-      final phoneNumber = formatPhoneNumber(contact.phones?.firstOrNull?.value);
+      final phoneNumber = formatPhoneNumber(
+        contact.phones.isNotEmpty ? contact.phones.first.number : '',
+      );
+
       return Contact(
-        id: contact.identifier ?? '',
-        name: contact.displayName ?? '이름 없음',
+        id: contact.id,
+        name: contact.displayName.isNotEmpty ? contact.displayName : '이름 없음',
         phoneNumber: phoneNumber,
         displayPhoneNumber: formatDisplayPhoneNumber(phoneNumber),
         imageUrl:
@@ -102,18 +116,36 @@ class ContactController extends _$ContactController {
   }
 
   String? getLikedContactName() {
-    return state.valueOrNull?.firstWhere((contact) => contact.isLiked).name;
+    final likedContact = state.valueOrNull?.firstWhere(
+      (contact) => contact.isLiked,
+      orElse: () => Contact(
+        id: '',
+        name: '',
+        phoneNumber: '',
+        displayPhoneNumber: '',
+        imageUrl: '',
+        isLiked: false,
+      ),
+    );
+    return likedContact?.name;
   }
 
   void updateContact(Contact updatedContact) {
     state.whenData((contacts) {
       final index = contacts.indexWhere((c) => c.id == updatedContact.id);
       if (index != -1) {
-        final updatedContacts = [...contacts];
+        final updatedContacts = List<Contact>.from(contacts);
         if (updatedContact.isLiked) {
           for (var i = 0; i < updatedContacts.length; i++) {
             if (i != index) {
-              updatedContacts[i] = updatedContacts[i].copyWith(isLiked: false);
+              updatedContacts[i] = Contact(
+                id: updatedContacts[i].id,
+                name: updatedContacts[i].name,
+                phoneNumber: updatedContacts[i].phoneNumber,
+                displayPhoneNumber: updatedContacts[i].displayPhoneNumber,
+                imageUrl: updatedContacts[i].imageUrl,
+                isLiked: false,
+              );
             }
           }
         }

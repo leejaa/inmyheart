@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cupid/features/quiz/providers/quiz_provider.dart';
 import 'package:cupid/features/quiz/widgets/contact_selection_dialog.dart';
@@ -49,7 +49,10 @@ class _QuizPageState extends ConsumerState<QuizPage>
   }
 
   Future<void> _loadRandomContacts() async {
-    final contacts = await ContactsService.getContacts();
+    final contacts = await FlutterContacts.getContacts(
+      withProperties: true,
+      withPhoto: false,
+    );
     final contactsList = contacts.toList()..shuffle();
     setState(() {
       _randomContacts = contactsList.take(3).toList();
@@ -97,7 +100,10 @@ class _QuizPageState extends ConsumerState<QuizPage>
       return;
     }
 
-    final contacts = await ContactsService.getContacts();
+    final contacts = await FlutterContacts.getContacts(
+      withProperties: true,
+      withPhoto: false,
+    );
     if (contacts.length < 5) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -156,9 +162,9 @@ class _QuizPageState extends ConsumerState<QuizPage>
             await ref.read(quizAnswerProvider(
               {
                 'quizId': quiz['id'],
-                'phone': contact.phones?.first.value
-                        ?.replaceAll(RegExp(r'[^\d+]'), '') ??
-                    '',
+                'phone': contact.phones.isNotEmpty
+                    ? contact.phones.first.number
+                    : '',
                 'name': contact.displayName,
               },
             ).future);
@@ -213,9 +219,7 @@ class _QuizPageState extends ConsumerState<QuizPage>
     try {
       await ref.read(quizAnswerProvider({
         'quizId': quiz['id'],
-        'phone':
-            contact.phones?.first.value?.replaceAll(RegExp(r'[^\d+]'), '') ??
-                '',
+        'phone': contact.phones.isNotEmpty ? contact.phones.first.number : '',
         'name': contact.displayName,
       }).future);
 
@@ -307,19 +311,24 @@ class _QuizPageState extends ConsumerState<QuizPage>
                           ],
                         ),
                       ),
-                      data: (quiz) => Column(
-                        children: [
-                          QuizCard(
-                            question: quiz['question'] as String,
-                            onSelectContact: _checkAndRequestContactPermission,
-                            scaleAnimation: _scaleAnimation,
-                            floatAnimation: _floatAnimation,
-                            answer: quiz['answer'] as Map<String, dynamic>?,
-                            randomContacts: _randomContacts,
-                            onRandomContactSelected: _submitAnswer,
-                          ),
-                        ],
-                      ),
+                      data: (quiz) {
+                        print('Quiz data: $quiz');
+                        print('Question value: ${quiz?['question']}');
+                        return Column(
+                          children: [
+                            QuizCard(
+                              question: quiz?['question'] as String? ?? '',
+                              onSelectContact:
+                                  _checkAndRequestContactPermission,
+                              scaleAnimation: _scaleAnimation,
+                              floatAnimation: _floatAnimation,
+                              answer: quiz?['answer'] as Map<String, dynamic>?,
+                              randomContacts: _randomContacts,
+                              onRandomContactSelected: _submitAnswer,
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ],
                 ),

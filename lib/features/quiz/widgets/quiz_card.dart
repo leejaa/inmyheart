@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 
 class QuizCard extends StatelessWidget {
   final String question;
@@ -138,7 +138,7 @@ class QuizCard extends StatelessWidget {
                                 ),
                               ),
                               child: Text(
-                                contact.displayName ?? '이름 없음',
+                                contact.displayName,
                                 style: TextStyle(
                                   color: const Color(0xFF2B2F4A),
                                   fontSize: 16.sp,

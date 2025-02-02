@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 
 class ContactSelectionDialog extends StatefulWidget {
   final List<Contact> contacts;
@@ -28,10 +28,13 @@ class _ContactSelectionDialogState extends State<ContactSelectionDialog> {
 
   Future<void> _loadContacts() async {
     try {
-      final contacts = await ContactsService.getContacts();
+      final contacts = await FlutterContacts.getContacts(
+        withProperties: true,
+        withPhoto: false,
+      );
       if (mounted) {
         setState(() {
-          _contacts = contacts.toList();
+          _contacts = contacts;
           _isLoading = false;
         });
       }
@@ -102,8 +105,7 @@ class _ContactSelectionDialogState extends State<ContactSelectionDialog> {
                         itemCount: _contacts!.length,
                         itemBuilder: (context, index) {
                           final contact = _contacts![index];
-                          if (contact.phones == null ||
-                              contact.phones!.isEmpty) {
+                          if (contact.phones.isEmpty) {
                             return const SizedBox.shrink();
                           }
 
@@ -111,8 +113,8 @@ class _ContactSelectionDialogState extends State<ContactSelectionDialog> {
                             leading: CircleAvatar(
                               backgroundColor: const Color(0xFFFFF6F9),
                               child: Text(
-                                (contact.displayName?.isNotEmpty == true)
-                                    ? contact.displayName!.substring(0, 1)
+                                contact.displayName.isNotEmpty
+                                    ? contact.displayName.substring(0, 1)
                                     : '?',
                                 style: TextStyle(
                                   color: const Color(0xFFFF4D8D),
@@ -121,16 +123,14 @@ class _ContactSelectionDialogState extends State<ContactSelectionDialog> {
                               ),
                             ),
                             title: Text(
-                              contact.displayName ?? '이름 없음',
+                              contact.displayName,
                               style: TextStyle(
                                 color: const Color(0xFF2B2F4A),
                                 fontSize: 16.sp,
                               ),
                             ),
                             subtitle: Text(
-                              contact.phones?.first.value
-                                      ?.replaceAll(RegExp(r'[^\d+]'), '') ??
-                                  '번호 없음',
+                              contact.phones.first.number,
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 14.sp,
