@@ -22,10 +22,19 @@ class _LikeCardState extends State<LikeCard> {
   bool _isHintRevealed = false;
   RewardedAd? _rewardedAd;
   bool _isLoading = false;
+  bool _isAdInitialized = false;
 
   @override
   void initState() {
     super.initState();
+    _initializeAds();
+  }
+
+  Future<void> _initializeAds() async {
+    if (!_isAdInitialized) {
+      await MobileAds.instance.initialize();
+      _isAdInitialized = true;
+    }
     _loadRewardedAd();
   }
 

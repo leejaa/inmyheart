@@ -26,9 +26,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // AdMob 초기화
-  await MobileAds.instance.initialize();
-
   String initialLocation = '/auth/phone';
 
   // 저장된 토큰이 있는지 확인하고 유효성 검증
